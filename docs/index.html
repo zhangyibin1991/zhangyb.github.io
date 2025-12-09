@@ -1,1 +1,230 @@
-Hello 陈雄锋
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>zhangyb's homepage</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+            line-height: 1.5;
+            color: #24292e;
+            background-color: #fff;
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            flex: 1;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 1px solid #e1e4e8;
+            padding-bottom: 20px;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            color: #0366d6;
+        }
+        
+        .tagline {
+            font-size: 1.2em;
+            color: #586069;
+            margin-bottom: 20px;
+        }
+        
+        .intro {
+            font-size: 1.1em;
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+        
+        .profile-pic {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+            border: 1px solid #e1e4e8;
+        }
+        
+        section {
+            margin-bottom: 40px;
+        }
+        
+        h2 {
+            font-size: 1.8em;
+            border-bottom: 1px solid #e1e4e8;
+            padding-bottom: 10px;
+            color: #0366d6;
+        }
+        
+        h3 {
+            font-size: 1.4em;
+            color: #0366d6;
+            margin-top: 25px;
+        }
+        
+        .hobby-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .hobby-card {
+            border: 1px solid #e1e4e8;
+            border-radius: 6px;
+            padding: 20px;
+            background-color: #fafbfc;
+        }
+        
+        .hobby-card h3 {
+            margin-top: 0;
+        }
+        
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .skill-tag {
+            background-color: #f1f8ff;
+            color: #0366d6;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #e1e4e8;
+            color: #586069;
+            font-size: 0.9em;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 20px 15px;
+            }
+            
+            .hobby-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+        <img src="profile.jpg" alt="Y.B.ZHANG" class="profile-pic">
+        <h1>Y.B.ZHANG</h1>
+        <div class="tagline">Professional Software Engineer & Technology Enthusiast</div>
+        <p class="intro">
+            欢迎来到我的个人主页！我是一名职业程序员，热爱技术与创新。在代码世界之外，
+            我还对设计、垂钓、徒步、无线电和3D打印充满热情。
+        </p>
+    </header>
+
+    <section>
+        <h2>专业技能</h2>
+        <p>
+            作为一名经验丰富的软件工程师，我在多个技术领域都有深入的实践和理解：
+        </p>
+        
+        <div class="skills-list">
+            <span class="skill-tag">Java</span>
+            <span class="skill-tag">数据库设计</span>
+            <span class="skill-tag">系统架构</span>
+            <span class="skill-tag">DevOps</span>
+            <span class="skill-tag">云计算</span>
+            <span class="skill-tag">敏捷开发</span>
+        </div>
+    </section>
+
+    <section>
+        <h2>兴趣爱好</h2>
+        <p>
+            工作之余，我喜欢探索各种技术和创造性的活动，这些爱好不仅丰富了我的生活，
+            也为我的专业工作带来了新的灵感和视角。
+        </p>
+        
+        <div class="hobby-grid">
+            <div class="hobby-card">
+                <h3>🎨 设计</h3>
+                <p>
+                    对UI/UX设计有着浓厚的兴趣，喜欢研究如何通过优秀的设计提升用户体验。
+                    经常关注最新的设计趋势，并尝试将设计理念应用到自己的项目中。
+                </p>
+            </div>
+            
+            <div class="hobby-card">
+                <h3>🎣 垂钓</h3>
+                <p>
+                    垂钓是一项让我放松心情的活动。享受在宁静的水边等待鱼儿上钩的过程，
+                    这种专注和平静的状态有助于我在繁忙的工作后恢复精力。
+                </p>
+            </div>
+            
+            <div class="hobby-card">
+                <h3>🥾 徒步</h3>
+                <p>
+                    热爱户外徒步，喜欢探索自然风光。徒步不仅锻炼身体，更是一种心灵的洗礼。
+                    在大自然中行走让我能够远离城市的喧嚣，思考人生和技术的未来。
+                </p>
+            </div>
+            
+            <div class="hobby-card">
+                <h3>📻 无线电</h3>
+                <p>
+                    对无线电技术充满好奇，喜欢研究各种通信原理和设备。
+                    业余时间会组装一些简单的无线电设备，体验从无到有的创造过程。
+                </p>
+            </div>
+            
+            <div class="hobby-card">
+                <h3>🖨️ 3D打印</h3>
+                <p>
+                    3D打印开启了我对数字化制造的兴趣。喜欢设计和打印各种实用的小物件，
+                    将数字模型转化为实体物品的过程非常有成就感。
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- <section>
+        <h2>项目展示</h2>
+        <p>
+            正在整理和完善个人项目作品集，敬请期待更多内容。
+        </p>
+        <p>
+            如果您对我的技能或项目感兴趣，欢迎通过以下方式联系我。
+        </p>
+    </section> -->
+
+    </div>
+    <footer>
+        <p>&copy; 2025 Y.B.ZHANG. All rights reserved.</p>
+        <p>Powered by GitHub Pages & Jekyll</p>
+    </footer>
+</body>
+</html>
