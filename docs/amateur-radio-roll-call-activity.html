@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>杭州业余无线电中继点名活动</title>
+    <!-- GSAP Animation Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+        }
+        
+        /* Minimalist Color Palette - Same as main page */
+        :root {
+            --primary-color: #222;
+            --secondary-color: #333;
+            --accent-color: #4a90e2;
+            --background-color: #fff;
+            --border-color: #eee;
+            --card-bg-color: #fafafa;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+            line-height: 1.6;
+            color: var(--primary-color);
+            background-color: var(--background-color);
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+            padding-top: 70px;
+        }
+        
+        /* Navigation Bar Styles */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--background-color);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            padding: 0 20px;
+        }
+        
+        .nav-list {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .nav-item {
+            margin: 0 15px;
+        }
+        
+        .nav-link {
+            display: block;
+            padding: 25px 0;
+            text-decoration: none;
+            color: var(--primary-color);
+            font-weight: 400;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-link:hover {
+            color: var(--secondary-color);
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--secondary-color);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 50px 40px;
+            flex: 1;
+        }
+        
+        /* Header Section */
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        h1 {
+            font-size: 2.2em;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+            font-weight: 300;
+        }
+        
+        .tagline {
+            font-size: 1.1em;
+            color: var(--secondary-color);
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+        
+        .subtitle {
+            font-size: 1em;
+            color: var(--accent-color);
+            font-weight: 400;
+        }
+        
+        /* Frequency Information Section - Consistent with main page style */
+        .frequency-section {
+            margin-bottom: 60px;
+        }
+        
+        .frequency-section h2 {
+            font-size: 1.7em;
+            padding-bottom: 15px;
+            color: var(--primary-color);
+            font-weight: 300;
+            letter-spacing: -0.02em;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 30px;
+        }
+        
+        .frequency-info {
+            padding: 0;
+        }
+        
+        .frequency-list {
+            display: block;
+        }
+        
+        .frequency-item {
+            padding: 5px 0;
+            line-height: 1.8;
+            font-size: 1em;
+            color: var(--primary-color);
+        }
+        
+        .frequency-item.call-sign {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: var(--primary-color);
+            padding-top: 8px;
+            padding-bottom: 8px;
+        }
+        
+        /* Announcement Section */
+        .announcement-section {
+            margin-bottom: 60px;
+        }
+        
+        .announcement-section h2 {
+            font-size: 1.7em;
+            padding-bottom: 15px;
+            color: var(--primary-color);
+            font-weight: 300;
+            letter-spacing: -0.02em;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 30px;
+        }
+        
+        .announcement-item {
+            padding: 0;
+        }
+        
+        .announcement-list {
+            display: block;
+        }
+        
+        .announcement-item-text {
+            padding: 5px 0;
+            line-height: 1.8;
+            font-size: 1em;
+            color: var(--primary-color);
+        }
+        
+        /* Timeline Section */
+        .timeline-section {
+            margin-top: 60px;
+        }
+        
+        .timeline-section h2 {
+            font-size: 1.7em;
+            padding-bottom: 15px;
+            color: var(--primary-color);
+            font-weight: 300;
+            letter-spacing: -0.02em;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .timeline-container {
+            position: relative;
+            padding-left: 30px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .timeline-container::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: var(--border-color);
+        }
+        
+        /* Year Level */
+        .year-group {
+            position: relative;
+            margin-bottom: 40px;
+        }
+        
+        .year-marker {
+            position: absolute;
+            left: -6px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            background-color: var(--accent-color);
+            border-radius: 50%;
+            border: 2px solid var(--background-color);
+            z-index: 2;
+        }
+        
+        .year-header {
+            font-size: 1.5em;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            padding-left: 10px;
+            border-left: 3px solid var(--accent-color);
+        }
+        
+        /* Month Level */
+        .month-group {
+            margin-left: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .month-header {
+            font-size: 1.2em;
+            font-weight: 500;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            padding-left: 8px;
+            border-left: 2px solid var(--border-color);
+        }
+        
+        /* Day Level */
+        .day-item {
+            margin-left: 15px;
+            margin-bottom: 15px;
+            padding: 15px;
+            background-color: var(--card-bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+        
+        .day-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border-color: var(--accent-color);
+        }
+        
+        .day-date {
+            font-weight: 600;
+            color: var(--accent-color);
+            margin-bottom: 8px;
+            font-size: 1em;
+        }
+        
+        .day-content {
+            color: var(--primary-color);
+            line-height: 1.6;
+        }
+        
+        .day-content ul {
+            margin: 8px 0;
+            padding-left: 18px;
+        }
+        
+        .day-content li {
+            margin-bottom: 6px;
+        }
+        
+        .call-sign {
+            font-weight: 600;
+            color: var(--accent-color);
+            font-family: 'Courier New', monospace;
+            padding: 1px 4px;
+            font-size: 0.95em;
+        }
+        
+        /* Empty State - Consistent with announcement style */
+        .empty-state {
+            padding: 0;
+            text-align: left;
+        }
+        
+        .empty-state h3 {
+            padding: 5px 0;
+            line-height: 1.8;
+            font-size: 1em;
+            color: var(--primary-color);
+            font-weight: 500;
+            margin-bottom: 0;
+        }
+        
+        .empty-state p {
+            padding: 5px 0;
+            line-height: 1.8;
+            font-size: 1em;
+            color: var(--secondary-color);
+            font-weight: 400;
+            margin-bottom: 15px;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 80px;
+            padding-top: 40px;
+            color: var(--secondary-color);
+            font-size: 0.9em;
+            padding-bottom: 40px;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        
+        /* Enhanced Responsive Design */
+        @media (max-width: 1200px) {
+            .container {
+                padding: 50px 30px;
+            }
+            
+            .frequency-grid {
+                grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+                gap: 20px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding-top: 60px;
+            }
+            
+            .nav-container {
+                padding: 0 15px;
+            }
+            
+            .nav-item {
+                margin: 0 10px;
+            }
+            
+            .nav-link {
+                padding: 20px 0;
+                font-size: 0.95em;
+            }
+            
+            .container {
+                padding: 40px 20px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .frequency-card {
+                padding: 25px;
+            }
+            
+            .frequency-main-info {
+                grid-template-columns: 1fr;
+            }
+            
+            .frequency-sub-info {
+                grid-template-columns: 1fr;
+            }
+            
+            .frequency-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .timeline-container {
+                padding-left: 30px;
+            }
+            
+            .year-marker {
+                left: -25px;
+                width: 14px;
+                height: 14px;
+            }
+            
+            .year-header {
+                font-size: 1.4em;
+            }
+            
+            .month-header {
+                font-size: 1.2em;
+            }
+            
+            .day-item {
+                margin-left: 20px;
+                padding: 15px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding-top: 50px;
+            }
+            
+            .nav-list {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .nav-item {
+                margin: 0 5px;
+            }
+            
+            .nav-link {
+                padding: 15px 0;
+                font-size: 0.85em;
+            }
+            
+            .container {
+                padding: 30px 15px;
+            }
+            
+            h1 {
+                font-size: 1.7em;
+            }
+            
+            .frequency-card {
+                padding: 20px;
+            }
+            
+            .frequency-item {
+                padding: 18px;
+            }
+            
+            .frequency-value {
+                font-size: 1.2em;
+            }
+            
+            .timeline-container {
+                padding-left: 20px;
+            }
+            
+            .year-marker {
+                left: -21px;
+                width: 12px;
+                height: 12px;
+            }
+            
+            .year-header {
+                font-size: 1.3em;
+                padding-left: 10px;
+            }
+            
+            .month-group {
+                margin-left: 20px;
+            }
+            
+            .day-item {
+                margin-left: 15px;
+                padding: 12px;
+            }
+            
+            .empty-state {
+                padding: 60px 20px;
+            }
+        }
+        
+        /* Desktop-specific enhancements */
+        @media (min-width: 1024px) {
+            .frequency-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            
+            .frequency-item {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+            }
+            
+            .timeline-container {
+                max-width: 1000px;
+            }
+        }
+    </style>
+    <script>
+        // Simple GSAP Animations
+        document.addEventListener('DOMContentLoaded', function() {
+            initGSAPAnimations();
+        });
+        
+        function initGSAPAnimations() {
+            // Initialize ScrollTrigger
+            gsap.registerPlugin(ScrollTrigger);
+            
+            // Header animation
+            gsap.from('header', {
+                duration: 0.8,
+                y: -20,
+                opacity: 0,
+                ease: 'power2.out'
+            });
+            
+            // Frequency section animation
+            gsap.from('.frequency-section', {
+                scrollTrigger: {
+                    trigger: '.frequency-section',
+                    start: 'top 85%',
+                    toggleActions: 'play none none reverse'
+                },
+                duration: 0.6,
+                y: 30,
+                opacity: 0,
+                ease: 'power2.out'
+            });
+            
+            // Timeline section animation
+            gsap.from('.timeline-section', {
+                scrollTrigger: {
+                    trigger: '.timeline-section',
+                    start: 'top 85%',
+                    toggleActions: 'play none none reverse'
+                },
+                duration: 0.6,
+                y: 30,
+                opacity: 0,
+                ease: 'power2.out'
+            });
+        }
+        
+        // Sample data for demonstration
+        const rollCallData = {
+            // "2024": {
+            //     "12": [
+            //         {
+            //             "date": "2024-12-28",
+            //             "activities": [
+            //                 "周末常规点名，<span class='call-sign'>BG5FUC</span> 主持",
+            //                 "参与人数：15人",
+            //                 "信号报告：普遍良好"
+            //             ]
+            //         },
+            //         {
+            //             "date": "2024-12-21",
+            //             "activities": [
+            //                 "冬至特别活动，<span class='call-sign'>BG5FUC</span> 与 <span class='call-sign'>BG5XXX</span> 对通",
+            //                 "测试新中继器参数"
+            //             ]
+            //         },
+            //         {
+            //             "date": "2024-12-14",
+            //             "activities": [
+            //                 "常规点名，<span class='call-sign'>BG5FUC</span> 参与",
+            //                 "讨论业余无线电法规"
+            //             ]
+            //         }
+            //     ],
+            //     "11": [
+            //         {
+            //             "date": "2024-11-30",
+            //             "activities": [
+            //                 "月末总结点名，<span class='call-sign'>BG5FUC</span> 主持",
+            //                 "分享DX通联经验"
+            //             ]
+            //         },
+            //         {
+            //             "date": "2024-11-16",
+            //             "activities": [
+            //                 "周末点名活动，<span class='call-sign'>BG5FUC</span> 参与",
+            //                 "新HAM入门交流"
+            //             ]
+            //         }
+            //     ]
+            // },
+            // "2023": {
+            //     "08": [
+            //         {
+            //             "date": "2023-08-15",
+            //             "activities": [
+            //                 "夏季常规点名，<span class='call-sign'>BG5FUC</span> 主持",
+            //                 "讨论天线架设技巧"
+            //             ]
+            //         }
+            //     ],
+            //     "05": [
+            //         {
+            //             "date": "2023-05-20",
+            //             "activities": [
+            //                 "520特别活动，<span class='call-sign'>BG5FUC</span> 与多位友台对通",
+            //                 "记录信号报告"
+            //             ]
+            //         }
+            //     ]
+            // }
+        };
+        
+        // Function to render timeline data
+        function renderTimeline() {
+            const container = document.getElementById('timeline-content');
+            if (!container) return;
+            
+            let html = '';
+            const years = Object.keys(rollCallData).sort((a, b) => b - a);
+            
+            if (years.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📻</div>
+                        <h3>暂无活动记录</h3>
+                    </div>
+                `;
+                return;
+            }
+            
+            years.forEach(year => {
+                const months = Object.keys(rollCallData[year]).sort((a, b) => b - a);
+                
+                html += `
+                    <div class="year-group">
+                        <div class="year-marker"></div>
+                        <div class="year-header">${year}年</div>
+                `;
+                
+                months.forEach(month => {
+                    const days = rollCallData[year][month];
+                    
+                    html += `
+                        <div class="month-group">
+                            <div class="month-header">${parseInt(month)}月</div>
+                    `;
+                    
+                    days.forEach(day => {
+                        html += `
+                            <div class="day-item">
+                                <div class="day-date">${day.date}</div>
+                                <div class="day-content">
+                                    <ul>
+                                        ${day.activities.map(activity => `<li>${activity}</li>`).join('')}
+                                    </ul>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    
+                    html += `</div>`;
+                });
+                
+                html += `</div>`;
+            });
+            
+            container.innerHTML = html;
+            
+            // Re-initialize animations for new content
+            setTimeout(() => {
+                // Year group animations
+                gsap.utils.toArray('.year-group').forEach((year, i) => {
+                    gsap.from(year, {
+                        scrollTrigger: {
+                            trigger: year,
+                            start: 'top 85%',
+                            toggleActions: 'play none none reverse'
+                        },
+                        duration: 0.6,
+                        x: -30,
+                        opacity: 0,
+                        ease: 'power2.out',
+                        delay: i * 0.1
+                    });
+                });
+                
+                // Day item animations
+                gsap.utils.toArray('.day-item').forEach((item, i) => {
+                    gsap.from(item, {
+                        scrollTrigger: {
+                            trigger: item,
+                            start: 'top 90%',
+                            toggleActions: 'play none none reverse'
+                        },
+                        duration: 0.4,
+                        x: 20,
+                        opacity: 0,
+                        ease: 'power2.out',
+                        delay: i * 0.05
+                    });
+                });
+            }, 100);
+        }
+        
+        // Render timeline on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            renderTimeline();
+        });
+    </script>
+</head>
+<body>
+    <!-- Fixed Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <ul class="nav-list">
+                <li class="nav-item"><a href="index.html" class="nav-link">首页</a></li>
+                <li class="nav-item"><a href="index.html#portfolio" class="nav-link">作品展示</a></li>
+                <li class="nav-item"><a href="index.html#about" class="nav-link">关于我</a></li>
+                <li class="nav-item"><a href="index.html#contact" class="nav-link">联系方式</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <header>
+            <h1>杭州业余无线电中继点名活动</h1>
+        </header>
+        
+        <!-- Frequency Information Section -->
+        <section class="frequency-section">
+            <h2>杭州中继台频率信息</h2>
+            <div class="frequency-info">
+                <div class="frequency-list">
+                    <div class="frequency-item call-sign">BR5AI</div>
+                    <div class="frequency-item">频率：439.550 MHz（-5 MHz 偏移）</div>
+                    <div class="frequency-item">亚音：发射 88.5 Hz（CTCSS）</div>
+                    <div class="frequency-item">呼号：BG5FUC（杭州）</div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Announcement Section -->
+        <section class="announcement-section">
+            <h2>点名活动预告</h2>
+            <div class="announcement-item">
+                <div class="announcement-list">
+                    <div class="announcement-item-text">【杭州天竺山中继BR5AI】跨年点名活动</div>
+                    <div class="announcement-item-text">时间：2025-12-31 22:00 ~ 2026-01-01 00:10 (UTC+8)</div>
+                    <div class="announcement-item-text">主控：BG5EXU、BG5CRL、BG5FBT、BG5EGG</div>
+                    <div class="announcement-item-text">QTH：杭州湖滨银泰</div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Timeline Section -->
+        <section class="timeline-section">
+            <h2>点名活动记录</h2>
+            <div class="timeline-container" id="timeline-content">
+                <!-- Timeline content will be rendered by JavaScript -->
+            </div>
+        </section>
+    </div>
+    
+    <footer>
+        <p>&copy; 2025 Y.B.ZHANG. All rights reserved.</p>
+        <p>Powered by GitHub Pages & Jekyll</p>
+    </footer>
+</body>
+</html>
