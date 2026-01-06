@@ -218,16 +218,17 @@
             padding-left: 30px;
             max-width: 900px;
             margin: 0 auto;
+            padding-bottom: 60px;
         }
         
         .timeline-container::before {
             content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background-color: var(--border-color);
+            display: none;
+        }
+        
+        .timeline-container::after {
+            content: '';
+            display: none;
         }
         
         /* Year Level */
@@ -237,15 +238,7 @@
         }
         
         .year-marker {
-            position: absolute;
-            left: -6px;
-            top: 5px;
-            width: 12px;
-            height: 12px;
-            background-color: var(--accent-color);
-            border-radius: 50%;
-            border: 2px solid var(--background-color);
-            z-index: 2;
+            display: none;
         }
         
         .year-header {
@@ -303,11 +296,13 @@
         
         .day-content ul {
             margin: 8px 0;
-            padding-left: 18px;
+            padding-left: 0;
+            list-style: none;
         }
         
         .day-content li {
             margin-bottom: 6px;
+            padding-left: 0;
         }
         
         .call-sign {
@@ -564,6 +559,19 @@
         
         // Sample data for demonstration
         const rollCallData = {
+            "2025": {
+                "01": [
+                    {
+                        "date": "2024-01-01",
+                        "activities": [
+                            "【杭州天竺山中继BR5AI】跨年点名活动",
+                            "2025-12-31 22:00 ~ 2026-01-01 00:10 (UTC+8)",
+                            "QTH：杭州湖滨银泰",
+                            "主控：BG5EXU、BG5CRL、BG5FBT、BG5EGG"
+                        ]
+                    },
+                ]
+            }
             // "2024": {
             //     "12": [
             //         {
@@ -750,7 +758,7 @@
             <div class="frequency-info">
                 <div class="frequency-list">
                     <div class="frequency-item call-sign">BR5AI</div>
-                    <div class="frequency-item">频率：439.550 MHz（-5 MHz 偏移）</div>
+                    <div class="frequency-item">频率：145.400 MHz（-0.6 MHz 偏移）</div>
                     <div class="frequency-item">亚音：发射 88.5 Hz（CTCSS）</div>
                     <div class="frequency-item">QTH：杭州天竺山</div>
                 </div>
@@ -758,7 +766,7 @@
         </section>
         
         <!-- Announcement Section -->
-        <section class="announcement-section">
+        <!-- <section class="announcement-section">
             <h2>点名活动预告</h2>
             <div class="announcement-item">
                 <div class="announcement-list">
@@ -768,7 +776,7 @@
                     <div class="announcement-item-text">QTH：杭州湖滨银泰</div>
                 </div>
             </div>
-        </section>
+        </section> -->
         
         <!-- Timeline Section -->
         <section class="timeline-section">
