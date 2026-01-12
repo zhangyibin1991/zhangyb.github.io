@@ -3,53 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QSL卡片展示 - BG5FUC</title>
-    <!-- GSAP Animation Library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <style>
-        html, body {
-            height: 100%;
+        * {
             margin: 0;
             padding: 0;
-            scroll-behavior: smooth;
+            box-sizing: border-box;
         }
-        
-        /* Minimalist Color Palette - Consistent with main site */
-        :root {
-            --primary-color: #222;
-            --secondary-color: #333;
-            --accent-color: #4a90e2;
-            --background-color: #fff;
-            --border-color: #eee;
-            --card-bg-color: #fafafa;
-            --qsl-bg-color: #f8f9fa;
-            --qsl-border-color: #dee2e6;
-        }
-        
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-            line-height: 1.6;
-            color: var(--primary-color);
-            background-color: var(--background-color);
-            min-height: 100%;
-            display: flex;
-            flex-direction: column;
-            padding-top: 70px;
+            background-color: #ffffff;
+            padding: 20px;
+            min-height: 100vh;
+            padding-top: 90px;
         }
-        
-        /* Navigation Bar Styles */
+
+        /* Navigation Bar Styles - Consistent with index.html */
         .navbar {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            background-color: var(--background-color);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            background-color: #ffffff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
             z-index: 1000;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 1px solid #eee;
         }
-        
+
         .nav-container {
             max-width: 1200px;
             margin: 0 auto;
@@ -57,32 +37,32 @@
             justify-content: center;
             padding: 0 20px;
         }
-        
+
         .nav-list {
             display: flex;
             list-style: none;
             margin: 0;
             padding: 0;
         }
-        
+
         .nav-item {
             margin: 0 15px;
         }
-        
+
         .nav-link {
             display: block;
             padding: 25px 0;
             text-decoration: none;
-            color: var(--primary-color);
+            color: #222;
             font-weight: 400;
             transition: all 0.3s ease;
             position: relative;
         }
-        
+
         .nav-link:hover {
-            color: var(--accent-color);
+            color: #4a90e2;
         }
-        
+
         .nav-link::after {
             content: '';
             position: absolute;
@@ -90,355 +70,182 @@
             left: 0;
             width: 0;
             height: 2px;
-            background-color: var(--accent-color);
+            background-color: #4a90e2;
             transition: width 0.3s ease;
         }
-        
+
         .nav-link:hover::after {
             width: 100%;
         }
-        
-        .container {
+
+        /* Year Section Styles */
+        .year-section {
             max-width: 1200px;
-            margin: 0 auto;
-            padding: 50px 40px;
-            flex: 1;
+            margin: 40px auto 30px;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
         }
-        
-        /* Header Section */
-        header {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-        
-        h1 {
-            font-size: 2.2em;
-            margin-bottom: 15px;
-            color: var(--primary-color);
-            font-weight: 300;
-        }
-        
-        .tagline {
-            font-size: 1.1em;
-            color: var(--secondary-color);
-            margin-bottom: 30px;
-            font-weight: 300;
-        }
-        
-        .subtitle {
-            font-size: 1em;
-            color: var(--accent-color);
-            font-weight: 400;
-        }
-        
-        /* QSL Card Grid */
-        .qsl-section {
-            margin-bottom: 60px;
-        }
-        
-        .qsl-section h2 {
-            font-size: 1.7em;
-            padding-bottom: 15px;
-            color: var(--primary-color);
+
+        .year-text {
+            font-size: 1.5em;
+            color: #222;
             font-weight: 300;
             letter-spacing: -0.02em;
-            border-bottom: 1px solid var(--border-color);
-            margin-bottom: 30px;
+            white-space: nowrap;
         }
-        
-        .qsl-filters {
-            margin-bottom: 30px;
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            align-items: center;
+
+        .year-divider {
+            flex: 1;
+            height: 1px;
+            background-color: #eee;
         }
-        
-        .filter-label {
-            font-size: 0.95em;
-            color: var(--secondary-color);
-            font-weight: 500;
-        }
-        
-        .filter-btn {
-            padding: 8px 16px;
-            border: 1px solid var(--border-color);
-            background: var(--card-bg-color);
-            color: var(--primary-color);
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.9em;
-        }
-        
-        .filter-btn:hover {
-            background: var(--accent-color);
-            color: white;
-            border-color: var(--accent-color);
-        }
-        
-        .filter-btn.active {
-            background: var(--accent-color);
-            color: white;
-            border-color: var(--accent-color);
-        }
-        
+
         .qsl-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
-            margin-top: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
-        
+
         .qsl-card {
-            background: var(--qsl-bg-color);
-            border: 1px solid var(--qsl-border-color);
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
             border-radius: 8px;
-            padding: 20px;
-            transition: all 0.3s ease;
-            position: relative;
             overflow: hidden;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.6s ease-out forwards;
         }
-        
-        .qsl-card::before {
-            content: '';
+
+        .qsl-card:nth-child(1) { animation-delay: 0.03s; }
+        .qsl-card:nth-child(2) { animation-delay: 0.06s; }
+        .qsl-card:nth-child(3) { animation-delay: 0.09s; }
+        .qsl-card:nth-child(4) { animation-delay: 0.12s; }
+        .qsl-card:nth-child(5) { animation-delay: 0.15s; }
+        .qsl-card:nth-child(6) { animation-delay: 0.18s; }
+        .qsl-card:nth-child(7) { animation-delay: 0.21s; }
+        .qsl-card:nth-child(8) { animation-delay: 0.24s; }
+        .qsl-card:nth-child(9) { animation-delay: 0.27s; }
+        .qsl-card:nth-child(10) { animation-delay: 0.30s; }
+        .qsl-card:nth-child(11) { animation-delay: 0.33s; }
+        .qsl-card:nth-child(12) { animation-delay: 0.36s; }
+        .qsl-card:nth-child(13) { animation-delay: 0.39s; }
+
+        .qsl-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+
+        .qsl-image-container {
+            width: 100%;
+            padding-bottom: 63.64%; /* 7/11 ≈ 63.64% - 11:7 aspect ratio */
+            overflow: hidden;
+            background: #f0f0f0;
+            position: relative;
+        }
+
+        .qsl-image-container img {
             position: absolute;
             top: 0;
             left: 0;
-            right: 0;
-            height: 4px;
-            background: var(--accent-color);
-            transform: scaleX(0);
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
             transition: transform 0.3s ease;
         }
-        
-        .qsl-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            border-color: var(--accent-color);
+
+        .qsl-card:hover .qsl-image-container img {
+            transform: scale(1.05);
         }
-        
-        .qsl-card:hover::before {
-            transform: scaleX(1);
-        }
-        
-        .qsl-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px dashed var(--qsl-border-color);
-        }
-        
-        .qsl-call-sign {
-            font-size: 1.3em;
-            font-weight: 700;
-            color: var(--accent-color);
-            font-family: 'Courier New', monospace;
-        }
-        
-        .qsl-band {
-            background: var(--accent-color);
-            color: white;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 0.85em;
-            font-weight: 600;
-        }
-        
-        .qsl-details {
-            font-size: 0.9em;
-            color: var(--secondary-color);
-            line-height: 1.6;
-        }
-        
-        .qsl-detail-item {
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-        }
-        
-        .qsl-detail-label {
-            font-weight: 600;
-            color: var(--primary-color);
-            min-width: 60px;
-            margin-right: 8px;
-        }
-        
-        .qsl-date {
-            font-size: 0.85em;
-            color: #999;
-            margin-top: 10px;
-            text-align: right;
-            font-style: italic;
-        }
-        
-        .qsl-mode {
-            background: #e8f4fd;
-            color: var(--accent-color);
-            padding: 2px 6px;
-            border-radius: 3px;
-            font-size: 0.85em;
-            font-weight: 500;
-        }
-        
-        .qsl-rst {
-            font-family: 'Courier New', monospace;
-            font-weight: 600;
-            color: var(--primary-color);
-        }
-        
-        
-        /* Empty State */
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: var(--secondary-color);
-        }
-        
-        .empty-state-icon {
-            font-size: 3em;
-            margin-bottom: 15px;
-            opacity: 0.5;
-        }
-        
-        .empty-state h3 {
-            font-size: 1.2em;
-            margin-bottom: 10px;
-            color: var(--primary-color);
-            font-weight: 400;
-        }
-        
-        /* Footer */
-        footer {
-            text-align: center;
-            margin-top: 80px;
-            padding-top: 40px;
-            color: var(--secondary-color);
-            font-size: 0.9em;
-            padding-bottom: 40px;
-            border-top: 1px solid var(--border-color);
-        }
-        
-        /* Responsive Design */
-        @media (max-width: 1200px) {
-            .container {
-                padding: 50px 30px;
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
         }
-        
+
+        /* 响应式布局 - 横向最多4张卡片 */
+        @media (max-width: 1200px) {
+            .qsl-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .qsl-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .qsl-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .qsl-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Navigation Bar Responsive - Consistent with index.html */
         @media (max-width: 768px) {
             body {
                 padding-top: 60px;
             }
-            
+
             .nav-container {
                 padding: 0 15px;
             }
-            
+
             .nav-item {
                 margin: 0 10px;
             }
-            
+
             .nav-link {
                 padding: 20px 0;
                 font-size: 0.95em;
             }
-            
-            .container {
-                padding: 40px 20px;
-            }
-            
-            h1 {
-                font-size: 2em;
-            }
-            
-            .qsl-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-            
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .qsl-filters {
-                justify-content: center;
+
+            .nav-link::after {
+                bottom: 15px;
             }
         }
-        
+
         @media (max-width: 480px) {
             body {
                 padding-top: 50px;
             }
-            
+
             .nav-list {
                 flex-wrap: wrap;
                 justify-content: center;
             }
-            
+
             .nav-item {
                 margin: 0 5px;
             }
-            
+
             .nav-link {
                 padding: 15px 0;
-                font-size: 0.85em;
+                font-size: 0.9em;
             }
-            
-            .container {
-                padding: 30px 15px;
+
+            .nav-link::after {
+                bottom: 10px;
             }
-            
-            h1 {
-                font-size: 1.7em;
-            }
-            
-            .qsl-card {
-                padding: 15px;
-            }
-            
-            .qsl-call-sign {
-                font-size: 1.1em;
-            }
-            
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .filter-btn {
-                padding: 6px 12px;
-                font-size: 0.85em;
-            }
-        }
-        
-        /* Animation Classes */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        
-        /* Loading Animation */
-        .loading {
-            text-align: center;
-            padding: 40px;
-            color: var(--secondary-color);
-        }
-        
-        .spinner {
-            border: 3px solid var(--border-color);
-            border-top: 3px solid var(--accent-color);
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
@@ -456,555 +263,104 @@
             </ul>
         </div>
     </nav>
-    
-    <div class="container">
-        <header>
-            <h1>QSL卡片展示</h1>
-            <div class="tagline">BG5FUC 的通联记录</div>
-            <div class="subtitle">记录每一次珍贵的空中相遇</div>
-        </header>
-        
-        
-        <!-- QSL Cards Section -->
-        <section class="qsl-section">
-            <h2>卡片墙</h2>
-            
-            <!-- Filters -->
-            <div class="qsl-filters">
-                <span class="filter-label">筛选:</span>
-                <button class="filter-btn active" data-filter="all">全部</button>
-                <button class="filter-btn" data-filter="20m">20m</button>
-                <button class="filter-btn" data-filter="40m">40m</button>
-                <button class="filter-btn" data-filter="SSB">SSB</button>
-                <button class="filter-btn" data-filter="CW">CW</button>
-                <button class="filter-btn" data-filter="FM">FM</button>
-            </div>
-            
-            <!-- QSL Grid -->
-            <div class="qsl-grid" id="qsl-grid">
-                <!-- QSL cards will be populated by JavaScript -->
-            </div>
-        </section>
+
+    <!-- Year Section -->
+    <div class="year-section">
+        <span class="year-text">2025</span>
+        <div class="year-divider"></div>
     </div>
-    
-    <footer>
-        <p>&copy; 2025 Y.B.ZHANG. All rights reserved.</p>
-        <p>Powered by GitHub Pages & Jekyll</p>
-    </footer>
 
-    <script>
-        // QSL Cards Data - Will be loaded dynamically
-        let qslData = [];
+    <div class="qsl-grid">
+        <!-- Card 1 -->
+        <div class="qsl-card">
+            <div class="qsl-image-container">
+                <img src="qsl-cards/2025/M50NYDVLC4_0ac1ow6lmh4.jpg" alt="QSL Card">
+            </div>
+        </div>
 
-        // Current filter state
-        let currentFilter = 'all';
-        let currentYearFilter = 'all';
+        <!-- Card 2 -->
+        <div class="qsl-card">
+            <div class="qsl-image-container">
+                <img src="qsl-cards/2025/M5BVP89TO9_5a7v823uoye.jpg" alt="QSL Card">
+            </div>
+        </div>
 
-        // Initialize page
-        document.addEventListener('DOMContentLoaded', function() {
-            loadQSLData();
-            initFilters();
-            initAnimations();
-        });
+        <!-- Card 3 -->
+        <div class="qsl-card">
+            <div class="qsl-image-container">
+                <img src="qsl-cards/2025/M5CNWPME3P_edomgzckez.jpg" alt="QSL Card">
+            </div>
+        </div>
 
-        // QSL data - embedded directly in HTML
-        const qslDataEmbedded = {
-            "last_updated": 1736677060,
-            "years": {
-                "2025": [
-                    {
-                        "filename": "M50NYDVLC4_0ac1ow6lmh4.jpg",
-                        "path": "qsl-cards/2025/M50NYDVLC4_0ac1ow6lmh4.jpg",
-                        "call_sign": "M50NYDVLC4",
-                        "size": 0,
-                        "modified": 1736677060
-                    },
-                    {
-                        "filename": "M5BVP89TO9_5a7v823uoye.jpg",
-                        "path": "qsl-cards/2025/M5BVP89TO9_5a7v823uoye.jpg",
-                        "call_sign": "M5BVP89TO9",
-                        "size": 0,
-                        "modified": 1736677060
-                    },
-                    {
-                        "filename": "M5CNWPME3P_edomgzckez.jpg",
-                        "path": "qsl-cards/2025/M5CNWPME3P_edomgzckez.jpg",
-                        "call_sign": "M5CNWPME3P",
-                        "size": 0,
-                        "modified": 1736677060
-                    },
-                    {
-                        "filename": "M5DZSZO5JG_ld7c3gjq2g.jpg",
-                        "path": "qsl-cards/2025/M5DZSZO5JG_ld7c3gjq2g.jpg",
-                        "call_sign": "M5DZSZO5JG",
-                        "size": 0,
-                        "modified": 1736677060
-                    },
-                    {
-                        "filename": "M5FLLAWSX4_k48tsxb6vur.jpg",
-                        "path": "qsl-cards/2025/M5FLLAWSX4_k48tsxb6vur.jpg",
-                        "call_sign": "M5FLLAWSX4",
-                        "size": 0,
-                        "modified": 1736677060
-                    },
-                    {
-                        "filename": "M5P2UTMEIT_uiahm4rkebf.jpg",
-                        "path": "qsl-cards/2025/M5P2UTMEIT_uiahm4rkebf.jpg",
-                        "call_sign": "M5P2UTMEIT",
-                        "size": 0,
-                        "modified": 1736677060
-                    },
-                    {
-                        "filename": "M5R14ZIMIL_s8jxbd7an5.jpg",
-                        "path": "qsl-cards/2025/M5R14ZIMIL_s8jxbd7an5.jpg",
-                        "call_sign": "M5R14ZIMIL",
-                        "size": 0,
-                        "modified": 1736677060
-                    },
-                    {
-                        "filename": "M5RSKKQDG4_nmthmofqraf.jpg",
-                        "path": "qsl-cards/2025/M5RSKKQDG4_nmthmofqraf.jpg",
-                        "call_sign": "M5RSKKQDG4",
-                        "size": 0,
-                        "modified": 1736677060
-                    },
-                    {
-                        "filename": "M5SQ8DKHKU_5bf584efwbn.jpg",
-                        "path": "qsl-cards/2025/M5SQ8DKHKU_5bf584efwbn.jpg",
-                        "call_sign": "M5SQ8DKHKU",
-                        "size": 0,
-                        "modified": 1736677060
-                    },
-                    {
-                        "filename": "M5STOD0SCJ_7e2ja9036fk.jpg",
-                        "path": "qsl-cards/2025/M5STOD0SCJ_7e2ja9036fk.jpg",
-                        "call_sign": "M5STOD0SCJ",
-                        "size": 0,
-                        "modified": 1736677060
-                    },
-                    {
-                        "filename": "M5UPNTRX1Y_psutjtji1e.jpg",
-                        "path": "qsl-cards/2025/M5UPNTRX1Y_psutjtji1e.jpg",
-                        "call_sign": "M5UPNTRX1Y",
-                        "size": 0,
-                        "modified": 1736677060
-                    },
-                    {
-                        "filename": "M5V2GI9YPI_4xdn9kopi66.jpg",
-                        "path": "qsl-cards/2025/M5V2GI9YPI_4xdn9kopi66.jpg",
-                        "call_sign": "M5V2GI9YPI",
-                        "size": 0,
-                        "modified": 1736677060
-                    },
-                    {
-                        "filename": "M5WAA9FXGT_4d42hlira5n.jpg",
-                        "path": "qsl-cards/2025/M5WAA9FXGT_4d42hlira5n.jpg",
-                        "call_sign": "M5WAA9FXGT",
-                        "size": 0,
-                        "modified": 1736677060
-                    }
-                ]
-            },
-            "summary": {
-                "total_cards": 13,
-                "years": ["2025"],
-                "year_count": 1
-            }
-        };
+        <!-- Card 4 -->
+        <div class="qsl-card">
+            <div class="qsl-image-container">
+                <img src="qsl-cards/2025/M5DZSZO5JG_ld7c3gjq2g.jpg" alt="QSL Card">
+            </div>
+        </div>
 
-        // Load QSL data from embedded data
-        function loadQSLData() {
-            const grid = document.getElementById('qsl-grid');
-            
-            if (!grid) return;
+        <!-- Card 5 -->
+        <div class="qsl-card">
+            <div class="qsl-image-container">
+                <img src="qsl-cards/2025/M5FLLAWSX4_k48tsxb6vur.jpg" alt="QSL Card">
+            </div>
+        </div>
 
-            // Show loading state
-            grid.innerHTML = `
-                <div class="loading" style="grid-column: 1 / -1;">
-                    <div class="spinner"></div>
-                    <p>正在加载QSL卡片数据...</p>
-                </div>
-            `;
+        <!-- Card 6 -->
+        <div class="qsl-card">
+            <div class="qsl-image-container">
+                <img src="qsl-cards/2025/M5P2UTMEIT_uiahm4rkebf.jpg" alt="QSL Card">
+            </div>
+        </div>
 
-            // Use embedded data directly
-            try {
-                // Process and store data
-                processQSLData(qslDataEmbedded);
-                
-                // Render the data
-                renderQSLCards();
-                
-            } catch (error) {
-                console.error('Error processing QSL data:', error);
-                grid.innerHTML = `
-                    <div class="empty-state" style="grid-column: 1 / -1;">
-                        <div class="empty-state-icon">❌</div>
-                        <h3>数据处理错误</h3>
-                        <p>请检查嵌入的数据格式</p>
-                        <p style="font-size: 0.85em; color: #999; margin-top: 10px;">错误: ${error.message}</p>
-                    </div>
-                `;
-            }
-        }
+        <!-- Card 7 -->
+        <div class="qsl-card">
+            <div class="qsl-image-container">
+                <img src="qsl-cards/2025/M5R14ZIMIL_s8jxbd7an5.jpg" alt="QSL Card">
+            </div>
+        </div>
 
+        <!-- Card 8 -->
+        <div class="qsl-card">
+            <div class="qsl-image-container">
+                <img src="qsl-cards/2025/M5RSKKQDG4_nmthmofqraf.jpg" alt="QSL Card">
+            </div>
+        </div>
 
-        // Process QSL data from JSON
-        function processQSLData(data) {
-            const allCards = [];
-            
-            // Extract cards from all years
-            if (data.years) {
-                Object.keys(data.years).forEach(year => {
-                    const yearCards = data.years[year];
-                    yearCards.forEach(card => {
-                        // Create card object with additional fields for display
-                        const cardObj = {
-                            ...card,
-                            year: year,
-                            callSign: card.call_sign || card.callSign || extractCallSign(card.filename),
-                            band: extractBand(card.filename),
-                            mode: extractMode(card.filename),
-                            frequency: extractFrequency(card.filename),
-                            date: formatDate(card.modified),
-                            time: formatTime(card.modified),
-                            rstSent: "59",
-                            rstRcvd: "59",
-                            qth: "未知",
-                            remarks: `年份: ${year}`
-                        };
-                        
-                        allCards.push(cardObj);
-                    });
-                });
-            }
+        <!-- Card 9 -->
+        <div class="qsl-card">
+            <div class="qsl-image-container">
+                <img src="qsl-cards/2025/M5SQ8DKHKU_5bf584efwbn.jpg" alt="QSL Card">
+            </div>
+        </div>
 
-            qslData = allCards;
-        }
+        <!-- Card 10 -->
+        <div class="qsl-card">
+            <div class="qsl-image-container">
+                <img src="qsl-cards/2025/M5STOD0SCJ_7e2ja9036fk.jpg" alt="QSL Card">
+            </div>
+        </div>
 
-        // Extract call sign from filename
-        function extractCallSign(filename) {
-            const nameWithoutExt = filename.replace(/\.[^/.]+$/, "");
-            const parts = nameWithoutExt.split('_');
-            return parts[0] || nameWithoutExt;
-        }
+        <!-- Card 11 -->
+        <div class="qsl-card">
+            <div class="qsl-image-container">
+                <img src="qsl-cards/2025/M5UPNTRX1Y_psutjtji1e.jpg" alt="QSL Card">
+            </div>
+        </div>
 
-        // Extract band from filename (simple heuristic)
-        function extractBand(filename) {
-            // Try to detect band from filename patterns
-            if (filename.includes('20m') || filename.match(/M5/i)) return '20m';
-            if (filename.includes('40m')) return '40m';
-            if (filename.includes('80m')) return '80m';
-            if (filename.includes('15m')) return '15m';
-            if (filename.includes('10m')) return '10m';
-            if (filename.includes('2m')) return '2m';
-            // Default for unknown
-            return '20m';
-        }
+        <!-- Card 12 -->
+        <div class="qsl-card">
+            <div class="qsl-image-container">
+                <img src="qsl-cards/2025/M5V2GI9YPI_4xdn9kopi66.jpg" alt="QSL Card">
+            </div>
+        </div>
 
-        // Extract mode from filename
-        function extractMode(filename) {
-            if (filename.includes('SSB') || filename.match(/M5/i)) return 'SSB';
-            if (filename.includes('CW')) return 'CW';
-            if (filename.includes('FM')) return 'FM';
-            if (filename.includes('AM')) return 'AM';
-            // Default for unknown
-            return 'SSB';
-        }
-
-        // Extract frequency from filename
-        function extractFrequency(filename) {
-            const band = extractBand(filename);
-            const freqMap = {
-                '20m': '14.250',
-                '40m': '7.180',
-                '80m': '3.750',
-                '15m': '21.250',
-                '10m': '28.500',
-                '2m': '145.500'
-            };
-            return freqMap[band] || '14.250';
-        }
-
-        // Format timestamp to date string
-        function formatDate(timestamp) {
-            if (!timestamp) return '未知日期';
-            const date = new Date(timestamp * 1000);
-            return date.toISOString().split('T')[0];
-        }
-
-        // Format timestamp to time string
-        function formatTime(timestamp) {
-            if (!timestamp) return '未知时间';
-            const date = new Date(timestamp * 1000);
-            return date.toTimeString().split(' ')[0].substring(0, 5);
-        }
-
-        // Render QSL cards with year grouping
-        function renderQSLCards() {
-            const grid = document.getElementById('qsl-grid');
-            if (!grid) return;
-
-            // Filter data
-            let filteredData = qslData;
-            
-            // Apply year filter
-            if (currentYearFilter !== 'all') {
-                filteredData = filteredData.filter(card => card.year === currentYearFilter);
-            }
-            
-            // Apply other filters
-            if (currentFilter !== 'all') {
-                filteredData = filteredData.filter(card => {
-                    if (currentFilter === 'SSB' || currentFilter === 'CW' || currentFilter === 'FM' || currentFilter === 'AM') {
-                        return card.mode === currentFilter;
-                    } else {
-                        return card.band === currentFilter;
-                    }
-                });
-            }
-
-            if (filteredData.length === 0) {
-                grid.innerHTML = `
-                    <div class="empty-state" style="grid-column: 1 / -1;">
-                        <div class="empty-state-icon">📻</div>
-                        <h3>暂无符合条件的卡片</h3>
-                        <p>请尝试其他筛选条件</p>
-                    </div>
-                `;
-                return;
-            }
-
-            // Group by year
-            const groupedByYear = {};
-            filteredData.forEach(card => {
-                if (!groupedByYear[card.year]) {
-                    groupedByYear[card.year] = [];
-                }
-                groupedByYear[card.year].push(card);
-            });
-
-            // Generate HTML
-            let html = '';
-            const years = Object.keys(groupedByYear).sort().reverse();
-            
-            years.forEach(year => {
-                const yearCards = groupedByYear[year];
-                
-                // Year header
-                html += `
-                    <div class="year-header" style="grid-column: 1 / -1; margin-top: 30px; margin-bottom: 15px;">
-                        <h3 style="color: var(--accent-color); font-size: 1.3em; font-weight: 600; border-bottom: 2px solid var(--accent-color); padding-bottom: 8px;">
-                            ${year} 年 (${yearCards.length} 张)
-                        </h3>
-                    </div>
-                `;
-                
-                // Cards for this year
-                yearCards.forEach((card, index) => {
-                    // Create a unique ID for the image container
-                    const imgId = `img-${year}-${index}`;
-                    
-                    html += `
-                        <div class="qsl-card fade-in" style="animation-delay: ${index * 0.03}s">
-                            <div class="qsl-header">
-                                <div class="qsl-call-sign">${card.callSign}</div>
-                                <div class="qsl-band">${card.band}</div>
-                            </div>
-                            <div class="qsl-image-container" style="margin-bottom: 15px; border-radius: 4px; overflow: hidden; background: #f0f0f0; min-height: 150px; display: flex; align-items: center; justify-content: center;">
-                                <img id="${imgId}" 
-                                     src="${card.path}" 
-                                     alt="${card.callSign}" 
-                                     style="max-width: 100%; height: auto;"
-                                     onload="document.getElementById('${imgId}-loading').style.display='none';"
-                                     onerror="this.style.display='none'; document.getElementById('${imgId}-loading').innerHTML='图片加载失败';">
-                                <div id="${imgId}-loading" style="color: #999; font-size: 0.9em;">加载中...</div>
-                            </div>
-                            <div class="qsl-details">
-                                <div class="qsl-detail-item">
-                                    <span class="qsl-detail-label">频率:</span>
-                                    <span>${card.frequency} MHz</span>
-                                </div>
-                                <div class="qsl-detail-item">
-                                    <span class="qsl-detail-label">模式:</span>
-                                    <span class="qsl-mode">${card.mode}</span>
-                                </div>
-                                <div class="qsl-detail-item">
-                                    <span class="qsl-detail-label">文件:</span>
-                                    <span style="font-size: 0.85em; color: #666;">${card.filename}</span>
-                                </div>
-                            </div>
-                            <div class="qsl-date">${card.date} ${card.time}</div>
-                        </div>
-                    `;
-                });
-            });
-
-            grid.innerHTML = html;
-
-            // Re-trigger animations for new content
-            setTimeout(() => {
-                initCardAnimations();
-            }, 100);
-        }
-
-        // Initialize filters
-        function initFilters() {
-            // Year filter buttons
-            const yearFilterContainer = document.createElement('div');
-            yearFilterContainer.className = 'qsl-filters';
-            yearFilterContainer.innerHTML = `
-                <span class="filter-label">年份:</span>
-                <button class="filter-btn active" data-year="all">全部</button>
-            `;
-            
-            // Add year buttons dynamically based on available years
-            const years = [...new Set(qslData.map(c => c.year))].sort().reverse();
-            years.forEach(year => {
-                const btn = document.createElement('button');
-                btn.className = 'filter-btn';
-                btn.textContent = year;
-                btn.setAttribute('data-year', year);
-                yearFilterContainer.appendChild(btn);
-            });
-
-            // Insert before existing filters
-            const existingFilters = document.querySelector('.qsl-filters');
-            if (existingFilters && existingFilters.parentNode) {
-                existingFilters.parentNode.insertBefore(yearFilterContainer, existingFilters);
-            }
-
-            // Band/Mode filter buttons
-            const filterButtons = document.querySelectorAll('.filter-btn[data-filter]');
-            
-            filterButtons.forEach(btn => {
-                btn.addEventListener('click', function() {
-                    // Update active state
-                    filterButtons.forEach(b => b.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    // Update filter state
-                    currentFilter = this.getAttribute('data-filter');
-                    
-                    // Re-render cards
-                    renderQSLCards();
-                });
-            });
-
-            // Year filter buttons (delegated event)
-            document.addEventListener('click', function(e) {
-                if (e.target.hasAttribute('data-year')) {
-                    const yearButtons = document.querySelectorAll('.filter-btn[data-year]');
-                    yearButtons.forEach(b => b.classList.remove('active'));
-                    e.target.classList.add('active');
-                    
-                    currentYearFilter = e.target.getAttribute('data-year');
-                    renderQSLCards();
-                }
-            });
-        }
-
-        // Initialize GSAP animations
-        function initAnimations() {
-            // Register ScrollTrigger
-            if (typeof gsap !== 'undefined' && gsap.registerPlugin) {
-                gsap.registerPlugin(ScrollTrigger);
-
-                // Header animation
-                gsap.from('header', {
-                    duration: 0.8,
-                    y: -20,
-                    opacity: 0,
-                    ease: 'power2.out'
-                });
-
-                // QSL section animation
-                gsap.from('.qsl-section', {
-                    scrollTrigger: {
-                        trigger: '.qsl-section',
-                        start: 'top 85%',
-                        toggleActions: 'play none none reverse'
-                    },
-                    duration: 0.6,
-                    y: 30,
-                    opacity: 0,
-                    ease: 'power2.out'
-                });
-            }
-        }
-
-        // Initialize card animations
-        function initCardAnimations() {
-            if (typeof gsap === 'undefined') return;
-            
-            const cards = document.querySelectorAll('.qsl-card');
-            
-            cards.forEach((card, index) => {
-                gsap.from(card, {
-                    scrollTrigger: {
-                        trigger: card,
-                        start: 'top 90%',
-                        toggleActions: 'play none none reverse'
-                    },
-                    duration: 0.5,
-                    y: 30,
-                    opacity: 0,
-                    ease: 'power2.out',
-                    delay: index * 0.03
-                });
-            });
-        }
-
-
-        // Add ripple effect to filter buttons
-        document.addEventListener('DOMContentLoaded', function() {
-            document.addEventListener('click', function(e) {
-                if (e.target.classList.contains('filter-btn') && !e.target.disabled) {
-                    const ripple = document.createElement('span');
-                    const rect = e.target.getBoundingClientRect();
-                    const size = Math.max(rect.width, rect.height);
-                    const x = e.clientX - rect.left - size / 2;
-                    const y = e.clientY - rect.top - size / 2;
-                    
-                    ripple.style.cssText = `
-                        position: absolute;
-                        width: ${size}px;
-                        height: ${size}px;
-                        left: ${x}px;
-                        top: ${y}px;
-                        background: rgba(255,255,255,0.3);
-                        border-radius: 50%;
-                        transform: scale(0);
-                        animation: ripple 0.6s ease-out;
-                        pointer-events: none;
-                    `;
-                    
-                    e.target.style.position = 'relative';
-                    e.target.style.overflow = 'hidden';
-                    e.target.appendChild(ripple);
-                    
-                    setTimeout(() => ripple.remove(), 600);
-                }
-            });
-
-            // Add ripple animation to styles
-            const style = document.createElement('style');
-            style.textContent = `
-                @keyframes ripple {
-                    to {
-                        transform: scale(2);
-                        opacity: 0;
-                    }
-                }
-                .year-header {
-                    animation: fadeIn 0.5s ease-out;
-                }
-                @keyframes fadeIn {
-                    from { opacity: 0; transform: translateY(-10px); }
-                    to { opacity: 1; transform: translateY(0); }
-                }
-            `;
-            document.head.appendChild(style);
-        });
-    </script>
+        <!-- Card 13 -->
+        <div class="qsl-card">
+            <div class="qsl-image-container">
+                <img src="qsl-cards/2025/M5WAA9FXGT_4d42hlira5n.jpg" alt="QSL Card">
+            </div>
+        </div>
+    </div>
 </body>
 </html>
