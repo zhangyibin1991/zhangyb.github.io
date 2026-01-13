@@ -125,6 +125,15 @@
             border: none;
         }
         
+        .image-meta {
+            font-size: 0.75em;
+            color: #999;
+            margin-top: 12px;
+            text-align: center;
+            line-height: 1.4;
+            width: 100%;
+        }
+        
         .hero-name {
             font-size: 6em;
             margin-bottom: 15px;
@@ -339,12 +348,18 @@
                 order: 2;
                 width: 100%;
                 display: flex;
+                flex-direction: column;
+                align-items: center;
                 justify-content: center;
                 margin: 20px 0 0;
             }
             
             .hero-profile {
                 margin: 0;
+            }
+            
+            .image-meta {
+                margin-top: 12px;
             }
             
             .hero-name {
@@ -528,10 +543,7 @@
         </div>
         <div class="hero-image-container">
             <img src="profile.jpg" alt="Y.B.ZHANG" class="hero-profile" loading="lazy">
-            <div class="image-meta" style="font-size: 0.75em; color: #999; margin-top: 12px; text-align: center; line-height: 1.4;">
-                <div>丢丢呀🥕（小红书）</div>
-                <div style="margin-top: 4px;">仅为个人娱乐，不可商用</div>
-            </div>
+            <div class="image-meta">丢丢呀🥕（小红书）<br>仅为个人娱乐，不可商用</div>
         </div>
     </section>
 
