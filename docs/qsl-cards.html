@@ -261,16 +261,27 @@
             }
         }
 
+        /* 小屏幕设备 - 卡片尺寸缩小到一半 (100px) */
         @media (max-width: 600px) {
             .qsl-grid {
-                grid-template-columns: repeat(auto-fill, 200px);
-                gap: 10px;
+                grid-template-columns: repeat(auto-fill, 100px);
+                gap: 8px;
+            }
+            
+            .qsl-card {
+                border-radius: 6px;
+            }
+            
+            .qsl-image-container {
+                padding-bottom: 63.64%; /* 保持11:7比例 */
             }
         }
 
+        /* 超小屏幕设备 - 卡片尺寸缩小到一半 (100px) */
         @media (max-width: 400px) {
             .qsl-grid {
-                grid-template-columns: 200px;
+                grid-template-columns: repeat(auto-fill, 100px);
+                gap: 6px;
             }
         }
 
