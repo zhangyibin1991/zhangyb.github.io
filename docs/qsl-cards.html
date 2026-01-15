@@ -88,67 +88,6 @@
             background-color: #ffffff;
             padding: 20px;
             min-height: 100vh;
-            padding-top: 90px;
-        }
-
-        /* Navigation Bar Styles - Consistent with index.html */
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background-color: #ffffff;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-            z-index: 1000;
-            border-bottom: 1px solid #eee;
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: center;
-            padding: 0 20px;
-        }
-
-        .nav-list {
-            display: flex;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
-
-        .nav-item {
-            margin: 0 15px;
-        }
-
-        .nav-link {
-            display: block;
-            padding: 25px 0;
-            text-decoration: none;
-            color: #222;
-            font-weight: 400;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .nav-link:hover {
-            color: #222;
-        }
-        
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: 20px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background-color: #222;
-            transition: width 0.3s ease;
-        }
-
-        .nav-link:hover::after {
-            width: 100%;
         }
 
         /* Year Section Styles */
@@ -285,70 +224,37 @@
             }
         }
 
-        /* Navigation Bar Responsive - Consistent with index.html */
+        /* Responsive adjustments for QSL cards */
         @media (max-width: 768px) {
-            body {
-                padding-top: 60px;
-            }
-
-            .nav-container {
-                padding: 0 15px;
-            }
-
-            .nav-item {
-                margin: 0 10px;
-            }
-
-            .nav-link {
-                padding: 20px 0;
-                font-size: 0.95em;
-            }
-
-            .nav-link::after {
-                bottom: 15px;
+            .qsl-grid {
+                grid-template-columns: repeat(auto-fill, 200px);
             }
         }
 
-        @media (max-width: 480px) {
-            body {
-                padding-top: 50px;
+        @media (max-width: 600px) {
+            .qsl-grid {
+                grid-template-columns: repeat(auto-fill, 100px);
+                gap: 8px;
             }
-
-            .nav-list {
-                flex-wrap: wrap;
-                justify-content: center;
+            
+            .qsl-card {
+                border-radius: 6px;
             }
-
-            .nav-item {
-                margin: 0 5px;
+            
+            .qsl-image-container {
+                padding-bottom: 63.64%; /* 保持11:7比例 */
             }
+        }
 
-            .nav-link {
-                padding: 15px 0;
-                font-size: 0.9em;
-            }
-
-            .nav-link::after {
-                bottom: 10px;
+        @media (max-width: 400px) {
+            .qsl-grid {
+                grid-template-columns: repeat(auto-fill, 100px);
+                gap: 6px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Fixed Navigation Bar -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <ul class="nav-list">
-                <li class="nav-item"><a href="index.html" class="nav-link">首页</a></li>
-                <li class="nav-item"><a href="photography.html" class="nav-link">摄影</a></li>
-                <li class="nav-item"><a href="amateur-radio-roll-call-activity.html" class="nav-link">无线电</a></li>
-                <li class="nav-item"><a href="qsl-cards.html" class="nav-link">QSL卡片</a></li>
-                <li class="nav-item"><a href="index.html#about" class="nav-link">关于我</a></li>
-                <li class="nav-item"><a href="index.html#contact" class="nav-link">联系方式</a></li>
-            </ul>
-        </div>
-    </nav>
-
     <!-- Year Section -->
         <div class="year-section">
         <span class="year-text">2026</span>

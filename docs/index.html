@@ -33,67 +33,6 @@
             min-height: 100%;
             display: flex;
             flex-direction: column;
-            padding-top: 70px; /* Increased space for fixed navbar */
-        }
-        
-        /* Navigation Bar Styles - Minimalist Design */
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background-color: var(--background-color);
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-            z-index: 1000;
-            border-bottom: 1px solid var(--border-color);
-        }
-        
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: center;
-            padding: 0 20px;
-        }
-        
-        .nav-list {
-            display: flex;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
-        
-        .nav-item {
-            margin: 0 15px;
-        }
-        
-        .nav-link {
-            display: block;
-            padding: 25px 0;
-            text-decoration: none;
-            color: var(--primary-color);
-            font-weight: 400;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-        
-        .nav-link:hover {
-            color: var(--primary-color);
-        }
-        
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: 20px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background-color: var(--primary-color);
-            transition: width 0.3s ease;
-        }
-        
-        .nav-link:hover::after {
-            width: 100%;
         }
         
         .container {
@@ -118,7 +57,7 @@
         
         .hero-profile {
             flex: 4; /* 40% width */
-            height: auto;
+            height: 360px; /* Fixed height to match left text content */
             border-radius: 0;
             object-fit: cover;
             margin: 0;
@@ -271,6 +210,44 @@
             border-color: var(--primary-color);
         }
         
+        /* Blog Article List Styles */
+        .blog-list {
+            margin-top: 30px;
+        }
+        
+        .blog-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: border-bottom-color 0.2s ease;
+        }
+        
+        .blog-item:hover {
+            border-bottom-color: var(--primary-color);
+        }
+        
+        .blog-item:last-child {
+            border-bottom: none;
+        }
+        
+        .blog-date {
+            color: #666;
+            font-size: 0.9em;
+            white-space: nowrap;
+            min-width: 90px;
+        }
+        
+        .blog-title {
+            color: var(--primary-color);
+            font-size: 1em;
+            font-weight: 400;
+            line-height: 1.5;
+        }
+        
+        
         footer {
             text-align: center;
             margin-top: 60px;
@@ -293,27 +270,6 @@
         }
         
         @media (max-width: 768px) {
-            body {
-                padding-top: 60px;
-            }
-            
-            .nav-container {
-                padding: 0 15px;
-            }
-            
-            .nav-item {
-                margin: 0 10px;
-            }
-            
-            .nav-link {
-                padding: 20px 0;
-                font-size: 0.95em;
-            }
-            
-            .nav-link::after {
-                bottom: 15px;
-            }
-            
             .container {
                 padding: 30px 20px;
             }
@@ -339,23 +295,24 @@
                 text-align: center;
             }
             
-            .hero-content {
-                order: 1;
-                margin-top: 0;
-            }
-            
             .hero-image-container {
-                order: 2;
+                order: 1;
                 width: 100%;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
                 justify-content: center;
-                margin: 20px 0 0;
+                margin-bottom: 20px;
+            }
+            
+            .hero-content {
+                order: 2;
+                margin-top: 0;
             }
             
             .hero-profile {
                 margin: 0;
+                height: 360px; /* Keep the same height on mobile */
             }
             
             .image-meta {
@@ -376,28 +333,6 @@
         }
         
         @media (max-width: 480px) {
-            body {
-                padding-top: 50px;
-            }
-            
-            .nav-list {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            
-            .nav-item {
-                margin: 0 5px;
-            }
-            
-            .nav-link {
-                padding: 15px 0;
-                font-size: 0.9em;
-            }
-            
-            .nav-link::after {
-                bottom: 10px;
-            }
-            
             .container {
                 padding: 25px 15px;
             }
@@ -501,16 +436,16 @@
                 });
             });
             
-            // Skill tag animations
-            gsap.utils.toArray('.skill-tag').forEach((tag, i) => {
-                gsap.from(tag, {
+            // Blog list item animations
+            gsap.utils.toArray('.blog-item').forEach((item, i) => {
+                gsap.from(item, {
                     scrollTrigger: {
-                        trigger: tag.parentElement,
-                        start: 'top 85%',
+                        trigger: item,
+                        start: 'top 90%',
                         toggleActions: 'play none none reverse'
                     },
-                    duration: 0.4,
-                    y: 20,
+                    duration: 0.5,
+                    x: -20,
                     opacity: 0,
                     ease: 'power2.out',
                     delay: i * 0.05
@@ -520,20 +455,6 @@
     </script>
 </head>
 <body>
-    <!-- Fixed Navigation Bar -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <ul class="nav-list">
-                <li class="nav-item"><a href="#home" class="nav-link">首页</a></li>
-                <li class="nav-item"><a href="photography.html" class="nav-link">摄影</a></li>
-                <li class="nav-item"><a href="amateur-radio-roll-call-activity.html" class="nav-link">无线电</a></li>
-                <li class="nav-item"><a href="qsl-cards.html" class="nav-link">QSL卡片</a></li>
-                <li class="nav-item"><a href="#about" class="nav-link">关于我</a></li>
-                <li class="nav-item"><a href="#contact" class="nav-link">联系方式</a></li>
-            </ul>
-        </div>
-    </nav>
-    
     <div class="container">
     <!-- Hero Section -->
     <section class="hero" id="home">
@@ -547,107 +468,27 @@
         </div>
     </section>
 
+    <!-- 博客文章列表 -->
     <section>
-        <h2>专业技能</h2>
-        <p>
-            作为一名经验丰富的软件工程师，我在多个技术领域都有深入的实践和理解：
-        </p>
+        <h2>More</h2>
+        <p></p>
         
-        <div class="skills-list">
-            <span class="skill-tag">Java</span>
-            <span class="skill-tag">系统架构</span>
-            <span class="skill-tag">DevOps</span>
-            <span class="skill-tag">云计算</span>
-            <span class="skill-tag">敏捷开发</span>
-        </div>
-    </section>
-
-    <section>
-        <h2>兴趣爱好</h2>
-        <p>
-            工作之余，我喜欢探索各种技术和创造性的活动，这些爱好不仅丰富了我的生活，
-            也为我的专业工作带来了新的灵感和视角。
-        </p>
-        
-        <div class="hobby-grid">
-            <div class="hobby-card">
-                <h3>🎨 设计</h3>
-                <p>
-                    对UI/UX设计有着浓厚的兴趣，喜欢研究如何通过优秀的设计提升用户体验。
-                    经常关注最新的设计趋势，并尝试将设计理念应用到自己的项目中。
-                </p>
+        <div class="blog-list">
+            <div class="blog-item" onclick="window.location.href='amateur-radio-roll-call-activity.html'">
+                <span class="blog-date">2025-01-01</span>
+                <span class="blog-title">杭州业余无线电中继点名活动记录</span>
             </div>
             
-            <div class="hobby-card">
-                <h3>🎣 垂钓</h3>
-                <p>
-                    垂钓是一项让我放松心情的休闲活动，空军是一种态度。
-                </p>
+            <div class="blog-item" onclick="window.location.href='qsl-cards.html'">
+                <span class="blog-date">2025-01-15</span>
+                <span class="blog-title">我的QSL卡片收藏展示</span>
             </div>
             
-            <div class="hobby-card">
-                <h3>🥾 徒步</h3>
-                <p>
-                    热爱户外徒步，喜欢探索自然风光。徒步不仅锻炼身体，更是一种心灵的洗礼。
-                    在大自然中行走让我能够远离城市的喧嚣，思考人生和技术的未来。
-                </p>
-            </div>
-            
-            <div class="hobby-card">
-                <h3>📻 无线电</h3>
-                <p>
-                    BG5FUC, QTH杭州，期待与您空中相遇, 73！
-                </p>
-                <p style="margin-top: 15px;">
-                    <a href="amateur-radio-roll-call-activity.html" style="color: var(--accent-color); text-decoration: none; font-weight: 500;">查看点名活动记录 →</a>
-                </p>
-            </div>
-            
-            <div class="hobby-card">
-                <h3>🖨️ 3D打印</h3>
-                <p>
-                    3D打印开启了我对数字化制造的兴趣。喜欢设计和打印各种实用的小物件，
-                    将数字模型转化为实体物品的过程非常有成就感。
-                </p>
+            <div class="blog-item" onclick="window.location.href='photography.html'">
+                <span class="blog-date">2024-12-20</span>
+                <span class="blog-title">摄影作品集 - 用镜头记录生活</span>
             </div>
         </div>
-    </section>
-
-    <section id="portfolio">
-        <h2>项目展示</h2>
-        <p>
-            正在整理和完善个人项目作品集，敬请期待更多内容。
-        </p>
-        <p>
-            如果您对我的技能或项目感兴趣，欢迎通过以下方式联系我。
-        </p>
-    </section>
-
-    <section id="about">
-        <h2>关于我</h2>
-        <p>
-            我是一名热爱技术与创新的专业软件工程师，在编程领域有着丰富的经验。我始终保持着对新技术的好奇心和学习热情，致力于通过代码解决实际问题并创造价值。
-        </p>
-        <p>
-            除了技术工作，我还热衷于设计、垂钓、徒步、无线电和3D打印等多样化的兴趣爱好。这些活动不仅丰富了我的生活体验，也拓宽了我的视野，为我的专业工作带来了独特的灵感和创造力。
-        </p>
-    </section>
-    
-    <section id="contact">
-        <h2>联系方式</h2>
-        <p>
-            如果您想与我交流技术问题、探讨合作机会或只是简单地打个招呼，请随时通过以下方式联系我：
-        </p>
-        <ul>
-            <li>📧 邮箱: zhangyibin1991@gmail.com</li>
-            <li>💼 LinkedIn: linkedin.com/in/zhangyibin</li>
-            <li>
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" style="vertical-align: middle; margin-right: 4px;">
-                    <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
-                </svg>
-                GitHub: github.com/zhangyibin1991
-            </li>
-        </ul>
     </section>
 
     </div>
